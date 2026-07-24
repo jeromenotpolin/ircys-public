@@ -219,3 +219,53 @@ body {
         width: 100%;
     }
 }
+
+/* ========================================================= */
+/* 📱 TAMBAHAN UNTUK TAMPILAN HP (MOBILE RESPONSIVE MENU) 📱 */
+/* ========================================================= */
+
+/* Layar Tablet & HP Ukuran Sedang */
+@media screen and (max-width: 900px) {
+    .menu-container {
+        margin-top: 100px; /* Kurangi jarak kosong di atas */
+    }
+
+    .subjects-grid {
+        grid-template-columns: repeat(2, 1fr); /* Ubah jadi 2 kolom */
+        gap: 15px;
+    }
+
+    .btn-subject {
+        font-size: 14px; /* Huruf sedikit dikecilkan */
+        padding: 12px 10px;
+        min-height: 60px;
+    }
+}
+
+/* Layar HP Ukuran Kecil */
+@media screen and (max-width: 500px) {
+    .menu-container {
+        margin-top: 80px; 
+        padding: 10px;
+    }
+
+    .subjects-grid {
+        grid-template-columns: repeat(1, 1fr); /* Berderet 1 kolom ke bawah */
+        gap: 12px;
+    }
+
+    .btn-subject {
+        font-size: 15px; 
+        padding: 15px 10px;
+        min-height: 50px;
+    }
+
+    /* Penyesuaian tombol NEXT JOURNEY di HP */
+    .btn-next-journey {
+        font-size: 16px;
+        padding: 12px 30px;
+        width: 90%; /* Supaya lebarnya pas 90% layar HP */
+        text-align: center;
+        box-sizing: border-box;
+    }
+}
