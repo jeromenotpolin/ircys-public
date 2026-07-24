@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Tes Jurusan by REVAL-SEA</title>
+        <link rel="preconnect" href="https://googleapis.com">
+        <link rel="preconnect" href="https://gstatic.com" crossorigin>
+        <link href="https://googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="data.css">
+    </head>
+    <body>
+        
+        <form action="page3.html" method="GET" onsubmit="simpanTanggalOtomatis()">
+            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                
+                <label for="Nama" class="input-label">ENTER YOUR FULL NAME</label>
+                <input type="text" id="Nama" name="Nama" class="input-field" placeholder="Navigator" required autocomplete="off">
+                
+                <label for="Kelas" class="input-label" style="margin-top: 25px;">ENTER YOUR CLASS</label>
+                <select id="Kelas" name="Kelas" class="input-field select-field" required>
+                    <option value="" disabled selected>SELECT CLASS</option>
+                    <option value="X">X (SEPULUH)</option>
+                    <option value="XI">XI (SEBELAS)</option>
+                    <option value="XII">XII (DUA BELAS)</option>
+                </select>
+
+                <button type="submit" id="tombolKirim">SUBMIT</button>
+            </div>            
+        </form>
+        
+    <script>
+        function simpanTanggalOtomatis() {
+            // 1. Ambil nilai nama dan kelas dari input
+            const namaInput = document.getElementById('Nama').value;
+            const kelasInput = document.getElementById('Kelas').value;
+
+            // 2. Ambil tanggal otomatis dari komputer
+            const hariIni = new Date();
+            const tahun = hariIni.getFullYear();
+            const bulan = String(hariIni.getMonth() + 1).padStart(2, '0');
+            const tanggal = String(hariIni.getDate()).padStart(2, '0');
+            const tanggalOtomatis = `${tanggal}-${bulan}-${tahun}`;
+
+            // 3. Simpan nama, kelas, dan tanggal ke localStorage (memori browser)
+            localStorage.setItem('namaUser', namaInput);
+            localStorage.setItem('kelasUser', kelasInput);
+            localStorage.setItem('tanggalInput', tanggalOtomatis);
+        }    
+    </script>
+    
+    </body>
+</html>

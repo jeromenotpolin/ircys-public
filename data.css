@@ -1,0 +1,115 @@
+/* 1. Mengatur dasar halaman dan Background */
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center; /* Mengetengahkan secara horizontal */
+    align-items: center;     /* Mengetengahkan secara vertikal */
+    /* GANTI 'background_navigator.jpg.png' dengan nama file gambar Anda */
+    background: url('background_navigator.jpg.png') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Cinzel', 'Georgia', serif; 
+    overflow: hidden;
+}
+
+/* 2. Wadah Utama Form */
+form > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 500px;
+    margin-top: 120px; 
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* 3. Style Teks Label */
+.input-label {
+    color: #ffffff;
+    font-size: 25px;
+    letter-spacing: 2px; 
+    margin-bottom: 15px;
+    text-shadow: 0px 0px 8px rgba(255, 255, 255, 0.6); 
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+/* 4. Style Kotak Input Umum (Nama) */
+.input-field {
+    width: 200%;
+    max-width: 500px;
+    padding: 14px 15px;
+    font-size: 22px;
+    font-family: 'Cinzel','Georgia', serif;
+    color: #ffffff;
+    text-transform: uppercase;
+    background-color: rgba(116, 169, 196, 0.85); /* Warna biru transparan sesuai foto */
+    border: 2px solid #ffffff;
+    border-radius: 30px; /* Membuat bentuk oval lonjong */
+    text-align: center;  
+    outline: none;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3), 
+                inset 0px 0px 10px rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+/* Efek saat kotak input diklik/fokus */
+.input-field:focus {
+    background-color: rgba(116, 169, 196, 0.95);
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.5);
+}
+
+/* Mengubah warna teks placeholder di dalam kotak menjadi putih pudar */
+.input-field::placeholder {
+    color: rgba(255, 255, 255, 0.70);
+    text-align: center;
+}
+
+/* 5. Customisasi Khusus Dropdown (Kelas) -> DIKECILIN DI SINI */
+.select-field {
+    cursor: pointer;
+    text-align-last: center; 
+    appearance: none; 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    
+    /* Ukuran yang lebih kecil dari input nama */
+    width: 100%;       
+    max-width: 250px;  /* Lebar maksimalnya dikurangi */
+    padding: 10px 15px; /* Jarak atas-bawah kotaknya dipersempit */
+    font-size: 18px;   /* Hurufnya sedikit lebih kecil */
+}
+
+/* Memberi warna solid pada list opsi agar teks bisa dibaca */
+.select-field option {
+    background-color: #74a9c4; 
+    color: #ffffff;
+    font-family: 'Cinzel', 'Georgia', serif;
+    font-size: 16px; /* Huruf list pilihan juga sedikit lebih kecil */
+}
+
+/* 6. Menyembunyikan tombol submit */
+#tombolKirim {
+    margin-top: 30px;
+    padding: 10px 40px;
+    font-size: 18px;
+    color: #ffffff;
+    background-color: transparent; 
+    border: 2px solid #ffffff;
+    border-radius: 20px; 
+    cursor: pointer;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'Cinzel', 'Georgia', serif;
+    transition: all 0.3s ease;
+}
+
+/* Efek saat tombol diarahkan oleh mouse (Hover) */
+#tombolKirim:hover {
+    background-color: #ffffff;
+    color: #74a9c4; 
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8);
+}

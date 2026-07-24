@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REVAL-SEA - Assessment Journey</title>
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="art_culture.css">
+</head>
+<body>
+
+    <div class="quiz-container">
+        <div class="progress-wrapper">
+            <span class="progress-text" id="progressText">JOURNEY PROGRESS: 0%</span>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progressBarFill"></div>
+            </div>
+        </div>
+
+        <div class="quiz-box">
+            <h2 id="questionText" class="question-text">Loading question...</h2>
+            <div class="options-container" id="optionsContainer">
+                <button class="btn-option" onclick="submitAnswer(1)">CERTAIN</button>
+                <button class="btn-option" onclick="submitAnswer(0)">UNCERTAIN</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =========================================================================
+        // MASUKKAN URL WEB APP APPS SCRIPT BARU ANDA DI SINI
+        // =========================================================================
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyZSBbbqt4-WSuqYu6_9OQ7ZI4J8Vtm7m1zVezECKtqOci8myr1WInD8zrerFBILw5T2w/exec";
+
+        // Tulis nama mapel kuis ini dengan HURUF KECIL SEMUA (harus sama dengan teks di Google Sheets)
+        const currentSubjectId = 'pe'; 
+
+        const questions = [
+            "Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='1'> Atletik Tolak Peluru </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Sejarah Tolak Peluru </li>" +
+              "<li> Pengertian Tolak Peluru </li>" +
+              "<li> Teknik Tolak Peluru </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='2'> Lompat Tinggi </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Sejarah Lompat Tinggi </li>" +
+              "<li> Macam-Macam Gaya Lompat Tinggi </li>" +
+              "<li> Teknik dasar Lompat Tinggi Gaya Straddle </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='3'> Senam Aerobik (High Impact) </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Pengertian </li>" +
+              "<li> Klasifikasi Senam Aerobik </li>" +
+              "<li> Macam-Macam Senam Aerobik </li>" +
+              "<li> Struktur Isi Latihan Aerobik </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='4'> Permainan Bola Besar (Futsal) </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Pengertian Futsal </li>" +
+              "<li> Teknik Futsal </li>" +
+              "<li> Pola Permainan </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='5'> Permainan Bola Basket </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Sejarah Bola Basket </li>" +
+              "<li> Peraturan Permainan </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='6'> Permainan Bola Besar (Bola Voli) </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Sejarah dan Pengertian Bola Voli </li>" +
+              "<li> Teknik Dasar Permainan Bola Voli </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='7'> Olahraga Pilihan Renang </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Sejarah Renang </li>" +
+              "<li> Teknik Dasar Renang Gaya Punggung </li>" +
+              "<li> Renang Gaya Dada </li>" +
+              "<li> Manfaat Renang Bagi Tubuh </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='8'> Atletik Lompah Jauh </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Lompat Jauh Gaya Jongkok </li>" +
+              "<li> Hal-Hal yang Diperhatikan dalam Lompat Jauh </li>" +
+              "<li> Kesalahan-Kesalahan Umum dalam Lompat Jauh </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='9'> Permainan Bola Kecil </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Sarana dan Prasarana </li>" +
+              "<li> Aturan Permainan </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='10'> Pengetahuan Umum </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Kesehatan Pribadi </li>" +
+              "<li> Cara Menciptakan Kesehatan Pribadi </li>" +
+              "<li> Sikap yang Sehat </li>" +
+              "<li> Cara Berpakaian yang Sesuai </li>" +
+              "<li> Penggunaan Sarung Tangan </li>" +
+              "<li> Praktik Kesehatan Pribadi </li>" +
+              "<li> Tips Sehat </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+        ];
+
+        // Memanggil namaUser dan tanggalInput dengan aman
+        const namaUser = localStorage.getItem('namaUser') ? localStorage.getItem('namaUser').toUpperCase() : "GUEST";
+        const tanggalInput = localStorage.getItem('tanggalInput') || new Date().toLocaleDateString();
+        const kelasUser = localStorage.getItem('kelasUser') ? localStorage.getItem('kelasUser') : "-";
+
+        let currentQuestionIndex = 0;
+        let totalCertain = 0;
+
+        function loadQuestion() {
+            document.getElementById("questionText").innerHTML = questions[currentQuestionIndex];
+            const progressPercentage = (currentQuestionIndex / questions.length) * 100;
+            document.getElementById("progressBarFill").style.width = progressPercentage + "%";
+            document.getElementById("progressText").innerText = `JOURNEY PROGRESS: ${Math.round(progressPercentage)}%`;
+        }
+
+        function submitAnswer(isCertain) {
+            totalCertain += isCertain;
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                // KUIS SELESAI
+                document.getElementById("progressBarFill").style.width = "100%";
+                document.getElementById("progressText").innerText = "SAVING LOGS...";
+                document.getElementById("questionText").innerText = "Processing your journey data...";
+                
+                document.getElementById("optionsContainer").style.pointerEvents = "none";
+                document.getElementById("optionsContainer").style.opacity = "0.3";
+
+                // LANGKAH 1: Paksa simpan memori centang di baris paling atas SEBELUM fetch internet dimulai
+                const keyName = 'sub-' + currentSubjectId;
+                localStorage.setItem(keyName, 'completed');
+
+                // MENGHITUNG PERSENTASE
+                let finalPercentage = Math.round((totalCertain / questions.length) * 100);
+
+                // LANGKAH 2: Bungkus data skor untuk dikirim ke Google Sheets
+                const formData = new FormData();
+                formData.append("Nama", namaUser);
+                formData.append("Kelas", kelasUser);
+                formData.append("NamaSubject", currentSubjectId); 
+                formData.append("NilaiSkor", finalPercentage + "%");          
+                formData.append("Tanggal", tanggalInput);
+
+                // LANGKAH 3: Tembak data ke spreadsheet
+                fetch(GOOGLE_SCRIPT_URL, { 
+                    method: 'POST', 
+                    body: formData 
+                })
+                .then(response => {
+                    // Sukses terkirim, langsung balik ke menu grid
+                    window.location.href = "page3.html"; 
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    // Jika ada gangguan internet, tetap dipaksa balik agar centang lokal tetap menyala
+                    window.location.href = "page3.html"; 
+                });
+            }
+        }
+ 
+        window.onload = loadQuestion;
+    </script>
+
+</body>
+</html>

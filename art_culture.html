@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REVAL-SEA - Assessment Journey</title>
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="art_culture.css">
+</head>
+<body>
+
+    <div class="quiz-container">
+        <div class="progress-wrapper">
+            <span class="progress-text" id="progressText">JOURNEY PROGRESS: 0%</span>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progressBarFill"></div>
+            </div>
+        </div>
+
+        <div class="quiz-box">
+            <h2 id="questionText" class="question-text">Loading question...</h2>
+            <div class="options-container" id="optionsContainer">
+                <button class="btn-option" onclick="submitAnswer(1)">CERTAIN</button>
+                <button class="btn-option" onclick="submitAnswer(0)">UNCERTAIN</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =========================================================================
+        // MASUKKAN URL WEB APP APPS SCRIPT BARU ANDA DI SINI
+        // =========================================================================
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyZSBbbqt4-WSuqYu6_9OQ7ZI4J8Vtm7m1zVezECKtqOci8myr1WInD8zrerFBILw5T2w/exec";
+
+        // Tulis nama mapel kuis ini dengan HURUF KECIL SEMUA (harus sama dengan teks di Google Sheets)
+        const currentSubjectId = 'art'; 
+
+        const questions = [
+            "Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li> Basic Theory of Music </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> The Staff, Clefs, and Ledger Lines </li>" +
+              "<li> Note Duration </li>" +
+              "<li> Rest Duration </li>" +
+              "<li> Measures and Time Signature </li>" +
+              "<li> Dots and Ties </li>" +
+              "<li> Steps and Accidentals </li>" +
+              "<li> Rhythm and Meter </li>" +
+              "<li> Key Signature </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+        ];
+
+        // Memanggil kembali Nama dan Tanggal agar formatnya seragam dengan kuis Math
+        const namaUser = localStorage.getItem('namaUser') ? localStorage.getItem('namaUser').toUpperCase() : "GUEST";
+        const tanggalInput = localStorage.getItem('tanggalInput') || new Date().toLocaleDateString();
+        const kelasUser = localStorage.getItem('kelasUser') ? localStorage.getItem('kelasUser') : "-";
+
+        let currentQuestionIndex = 0;
+        let totalCertain = 0;
+
+        function loadQuestion() {
+            document.getElementById("questionText").innerHTML = questions[currentQuestionIndex];
+            const progressPercentage = (currentQuestionIndex / questions.length) * 100;
+            document.getElementById("progressBarFill").style.width = progressPercentage + "%";
+            document.getElementById("progressText").innerText = `JOURNEY PROGRESS: ${Math.round(progressPercentage)}%`;
+        }
+
+        function submitAnswer(isCertain) {
+            totalCertain += isCertain;
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                // KUIS SELESAI
+                document.getElementById("progressBarFill").style.width = "100%";
+                document.getElementById("progressText").innerText = "SAVING LOGS...";
+                document.getElementById("questionText").innerText = "Processing your journey data...";
+                
+                document.getElementById("optionsContainer").style.pointerEvents = "none";
+                document.getElementById("optionsContainer").style.opacity = "0.3";
+
+                // LANGKAH 1: Paksa simpan memori centang di baris paling atas SEBELUM fetch internet dimulai
+                const keyName = 'sub-' + currentSubjectId;
+                localStorage.setItem(keyName, 'completed');
+
+                // MENGHITUNG PERSENTASE (Otomatis berdasarkan jumlah soal)
+                let finalPercentage = Math.round((totalCertain / questions.length) * 100);
+
+                // LANGKAH 2: Bungkus data skor untuk dikirim ke Google Sheets
+                const formData = new FormData();
+                formData.append("Nama", namaUser);
+                formData.append("Kelas", kelasUser);
+                formData.append("NamaSubject", currentSubjectId); 
+                formData.append("NilaiSkor", finalPercentage + "%");          
+                formData.append("Tanggal", tanggalInput);
+
+                // LANGKAH 3: Tembak data ke spreadsheet
+                fetch(GOOGLE_SCRIPT_URL, { 
+                    method: 'POST', 
+                    body: formData 
+                })
+                .then(response => {
+                    // Berhasil kirim (alert dihapus agar transisi langsung mulus seperti kodemu di atas)
+                    window.location.href = "page3.html"; 
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    window.location.href = "page3.html"; 
+                });
+            }
+        }
+
+        window.onload = loadQuestion;
+    </script>
+
+</body>
+</html>

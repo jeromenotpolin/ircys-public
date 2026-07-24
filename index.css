@@ -1,0 +1,58 @@
+/* 1. Mengatur dasar halaman dan Gambar Background Utama */
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center; /* Mengetengahkan konten secara vertikal */
+    /* GANTI 'bg_pathfinder.jpg' dengan nama file gambar latar belakang lengkap Anda */
+    background: url('slide1rev.png') no-repeat center center fixed;
+    background-size: cover;
+    overflow: hidden;
+}
+
+/* 2. Wadah Struktur Konten */
+.landing-container {
+    width: 100%;
+    max-width: 1200px;
+    margin-left: 10%; /* Dorong area konten ke arah kiri sesuai dengan tata letak foto */
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Meratakan konten di sebelah kiri */
+    
+    /* Mengatur jarak turunnya tombol dari atas layar agar pas di bawah teks logo */
+    margin-top: 80px; 
+}
+
+/* 3. Style Tombol "MAP YOUR PATH" (Sama dengan style form navigator Anda) */
+.btn-path {
+    display: inline-block;
+    padding: 14px 45px;
+    font-family: 'Cinzel Decorative', serif; /* Font bergaya dekoratif fantasi */
+    font-size: 22px;
+    color: #ffffff;
+    text-decoration: none; /* Menghilangkan garis bawah tautan link */
+    background-color: rgba(116, 169, 196, 0.85); /* Biru laut transparan sesuai foto */
+    border: 2px solid #ffffff;
+    border-radius: 30px; /* Sudut lonjong oval sempurna */
+    text-align: center;
+    letter-spacing: 2px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3),
+                inset 0px 0px 10px rgba(255, 255, 255, 0.2);
+    transition: all 0.4s ease; /* Efek transisi animasi yang sangat halus */
+}
+
+/* Efek saat tombol diarahkan oleh mouse (Hover) */
+.btn-path:hover {
+    background-color: #74a9c4; /* Berubah menjadi biru penuh solid */
+    box-shadow: 0px 0px 25px rgba(255, 255, 255, 0.7),
+                inset 0px 0px 10px rgba(255, 255, 255, 0.3);
+    transform: scale(1.04) translateY(-2px); /* Tombol membesar dan terangkat sedikit */
+}
+
+/* Efek saat tombol ditekan klik */
+.btn-path:active {
+    transform: scale(1.01) translateY(1px);
+}

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REVAL-SEA - Assessment Journey</title>
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="art_culture.css">
+</head>
+<body>
+
+    <div class="quiz-container">        
+        <div class="progress-wrapper">
+            <span class="progress-text" id="progressText">JOURNEY PROGRESS: 0%</span>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progressBarFill"></div>
+            </div>
+        </div>
+
+        <div class="quiz-box">
+            <h2 id="questionText" class="question-text">Loading question...</h2>
+            <div class="options-container" id="optionsContainer">
+                <button class="btn-option" onclick="submitAnswer(1)">CERTAIN</button>
+                <button class="btn-option" onclick="submitAnswer(0)">UNCERTAIN</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =========================================================================
+        // MASUKKAN URL WEB APP APPS SCRIPT BARU ANDA DI SINI
+        // =========================================================================
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyZSBbbqt4-WSuqYu6_9OQ7ZI4J8Vtm7m1zVezECKtqOci8myr1WInD8zrerFBILw5T2w/exec";      
+
+        // Tulis nama mapel kuis ini dengan HURUF KECIL SEMUA (harus sama dengan teks di Google Sheets)
+        const currentSubjectId = 'math';         
+
+        const questions = [
+            "Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='1'> Eksponen dan Logaritma </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Eksponensial </li>" +
+              "<li> Fungsi Eksponen </li>" +
+              "<li> Persamaan Eksponensial </li>" +
+              "<li> Pertidaksamaan Eksponen </li>" +
+              "<li> Logaritma </li>" +
+              "<li> Fungsi Logaritma </li>" +
+              "<li> Menentukan Logaritma Suatu Bilangan </li>" +
+              "<li> Persamaan Logaritma </li>" +
+              "<li> Pertidaksamaan Logaritma </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='2'> Barisan dan Deret </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Barisan dan Deret Aritmatika </li>" +
+              "<li> Barisan dan Deret Geometri </li>" +
+              "<li> Bunga Tunggal dan Bunga Majemuk </li>" +
+              "<li> Anuitas </li>" +
+              "<li> Deret Geometri Konvergen </li>" +
+              "<li> Bentuk Suku Umum dan Jumlah Deret Lain </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='3'> Sistem Persamaan Linear Tiga Variabel </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Sistem Persamaan Linear Dua Variabel </li>" +
+              "<li> Sistem Persamaan Linear Tiga Variabel </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='4'> Trigonometri </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Pengukuran Sudut </li>" +
+              "<li> Perbandingan Trigonometri </li>" +
+              "<li> Sudut Istimewa Trigonometri </li>" +
+              "<li> Sudut Berelasi Trigonometri </li>" +
+              "<li> Sistem Koordinat Kutub </li>" +
+              "<li> Grafik Fungsi Trigonometri </li>" +
+              "<li> Identitas Trigonometri </li>" +
+              "<li> Rumus-Rumus Segitiga </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='5'> Sistem Pertidaksamaan Dua Variabel </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Menggambar Pertidaksamaan Linear Dua Variabel </li>" +
+              "<li> Menggambar Pertidaksamaan Kuadrat Dua Variabel </li>" +
+              "<li> Sistem Pertidaksamaan Linear Dua Variabel </li>" +
+              "<li> Sistem Pertidaksamaan Linear-Kuadrat Dua Variabel </li>" +
+              "<li> Menyelesaikan Sistem Pertidaksamaan Kuadrat Dua Variabel </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='6'> Statistika </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Menyajikan Data Ukuran Menjadi Data Statistik </li>" +
+              "<li> Menyajikan Dara dalam Bentuk Diagram </li>" +
+              "<li> Ukuran Pemusatan </li>" +
+              "<li> Ukuran Penyebaran </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='7'> Peluang </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Kaidah Pencacahan </li>" +
+              "<li> Notasi Faktorial </li>" +
+              "<li> Permutasi </li>" +
+              "<li> Kombinasi </li>" +
+              "<li> Kejadian dan Peluang Suatu Kejadian </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+        ];
+
+        const namaUser = localStorage.getItem('namaUser').toUpperCase();
+        const tanggalInput = localStorage.getItem('tanggalInput');       
+        const kelasUser = localStorage.getItem('kelasUser') ? localStorage.getItem('kelasUser') : "-"; 
+
+        let currentQuestionIndex = 0;
+        
+        // UBAH: Variabel untuk menghitung total soal yang dijawab 'CERTAIN'
+        let totalCertain = 0; 
+
+        function loadQuestion() {
+            document.getElementById("questionText").innerHTML = questions[currentQuestionIndex];
+            const progressPercentage = (currentQuestionIndex / questions.length) * 100;
+            document.getElementById("progressBarFill").style.width = progressPercentage + "%";
+            document.getElementById("progressText").innerText = `JOURNEY PROGRESS: ${Math.round(progressPercentage)}%`;
+        }
+
+        // UBAH: Fungsi ini sekarang menerima angka 1 (certain) atau 0 (uncertain)
+        function submitAnswer(isCertain) {
+            totalCertain += isCertain; // Nambah 1 kalau certain, 0 kalau uncertain
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                // KUIS SELESAI
+                document.getElementById("progressBarFill").style.width = "100%";
+                document.getElementById("progressText").innerText = "SAVING LOGS...";
+                document.getElementById("questionText").innerText = "Processing your journey data...";
+                
+                document.getElementById("optionsContainer").style.pointerEvents = "none";
+                document.getElementById("optionsContainer").style.opacity = "0.3";
+
+                // LANGKAH 1: Paksa simpan memori centang di baris paling atas SEBELUM fetch internet dimulai
+                const keyName = 'sub-' + currentSubjectId;
+                localStorage.setItem(keyName, 'completed');
+
+                // UBAH: Menghitung Persentase Certain
+                // Math.round digunakan agar hasilnya bulat (misal: 75% bukan 75.333%)
+                let finalPercentage = Math.round((totalCertain / questions.length) * 100);
+
+                // LANGKAH 2: Bungkus data skor untuk dikirim ke Google Sheets
+                const formData = new FormData();
+                formData.append("Nama", namaUser);        
+                formData.append("Kelas", kelasUser);
+                formData.append("NamaSubject", currentSubjectId); 
+                formData.append("NilaiSkor", finalPercentage + "%"); 
+                formData.append("Tanggal", tanggalInput);
+
+                // LANGKAH 3: Tembak data ke spreadsheet
+                fetch(GOOGLE_SCRIPT_URL, { 
+                    method: 'POST', 
+                    body: formData 
+                })
+                .then(response => {
+                    alert('Data berhasil dikirim!');
+                    window.location.href = "page3.html"; 
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    window.location.href = "page3.html"; 
+                });
+            }
+        }
+ 
+        window.onload = loadQuestion;
+    </script>
+
+</body>
+</html>

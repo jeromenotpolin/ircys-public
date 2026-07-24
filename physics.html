@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pathfinder - Assessment Journey</title>
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="art_culture.css">
+</head>
+<body>
+
+    <div class="quiz-container">
+        <div class="progress-wrapper">
+            <span class="progress-text" id="progressText">JOURNEY PROGRESS: 0%</span>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progressBarFill"></div>
+            </div>
+        </div>
+
+        <div class="quiz-box">
+            <h2 id="questionText" class="question-text">Loading question...</h2>
+            <div class="options-container" id="optionsContainer">
+                <button class="btn-option" onclick="submitAnswer(1)">CERTAIN</button>
+                <button class="btn-option" onclick="submitAnswer(0)">UNCERTAIN</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =========================================================================
+        // MASUKKAN URL WEB APP APPS SCRIPT BARU ANDA DI SINI
+        // =========================================================================
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyZSBbbqt4-WSuqYu6_9OQ7ZI4J8Vtm7m1zVezECKtqOci8myr1WInD8zrerFBILw5T2w/exec";
+
+        // Tulis nama mapel kuis ini dengan HURUF KECIL SEMUA (harus sama dengan teks di Google Sheets)
+        const currentSubjectId = 'physics'; 
+
+        const questions = [
+            "Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='1'> Hakikat Ilmu Fisika dan Keselamatan Kerja di Laboratorium </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Hakikat Ilmu Fisika </li>" +
+              "<li> Metode Ilmiah </li>" +
+              "<li> Peran Fisika </li>" +
+              "<li> Keselamatan Kerja di Laboratorium </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='2'> Pengukuran </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Besaran dan Satuan </li>" +
+              "<li> Pengukuran </li>" +
+              "<li> Sistem SI dan Notasi Ilmiah </li>" +
+              "<li> Konversi Satuan </li>" +
+              "<li> Angka Penting </li>" +
+              "<li> Ketidakpastian Pengukuran </li>" +
+              "<li> Dimensi </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='3'> Vektor </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Vektor </li>" +
+              "<li> Resultan Vektor </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='4'> Kinematika Gerak </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Gerak Lurus </li>" +
+              "<li> Gerak Lurus Beraturan (GLB) </li>" +
+              "<li> Gerak Lurus Berubah Beratuan (GLBB) </li>" +
+              "<li> Gerak Vertikal </li>" +
+              "<li> Gerak Jatuh Bebas (GJB) </li>" +
+              "<li> Gerak Parabola </li>" +
+              "<li> Gerak Melingkar </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='5'> Usaha dan Energi </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Usaha </li>" +
+              "<li> Energi </li>" +
+              "<li> Hukum Kekekalan Energi Mekanik </li>" +
+              "<li> Hubungan Usaha dan Energi </li>" +
+              "<li> Analisis Gerak pada Roller Coaster </li>" +
+              "<li> Daya </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='6'> Sumber Energi </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Jenis-Jenis Energi </li>" +
+              "<li> Energi Fosil </li>" +
+              "<li> Energi Terbarukan </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='7'> Pemanasan Global </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Efek Rumah Kaca </li>" +
+              "<li> Penyebab Pemanasan Global </li>" +
+              "<li> Dampak Pemanasan Global </li>" +
+              "<li> Cara Mengatasi Pemanasan Global </li>" +
+              "<li> Perjanjian Internasional </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+        ];
+
+        // Memanggil namaUser dan tanggalInput dengan aman
+        const namaUser = localStorage.getItem('namaUser') ? localStorage.getItem('namaUser').toUpperCase() : "GUEST";
+        const tanggalInput = localStorage.getItem('tanggalInput') || new Date().toLocaleDateString();
+        const kelasUser = localStorage.getItem('kelasUser') ? localStorage.getItem('kelasUser') : "-";
+
+        let currentQuestionIndex = 0;
+        let totalCertain = 0;
+
+        function loadQuestion() {
+            document.getElementById("questionText").innerHTML = questions[currentQuestionIndex];
+            const progressPercentage = (currentQuestionIndex / questions.length) * 100;
+            document.getElementById("progressBarFill").style.width = progressPercentage + "%";
+            document.getElementById("progressText").innerText = `JOURNEY PROGRESS: ${Math.round(progressPercentage)}%`;
+        }
+
+        function submitAnswer(isCertain) {
+            totalCertain += isCertain;
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                // KUIS SELESAI
+                document.getElementById("progressBarFill").style.width = "100%";
+                document.getElementById("progressText").innerText = "SAVING LOGS...";
+                document.getElementById("questionText").innerText = "Processing your journey data...";
+                
+                document.getElementById("optionsContainer").style.pointerEvents = "none";
+                document.getElementById("optionsContainer").style.opacity = "0.3";
+
+                // LANGKAH 1: Paksa simpan memori centang di baris paling atas SEBELUM fetch internet dimulai
+                const keyName = 'sub-' + currentSubjectId;
+                localStorage.setItem(keyName, 'completed');
+
+                // MENGHITUNG PERSENTASE
+                let finalPercentage = Math.round((totalCertain / questions.length) * 100);
+
+                // LANGKAH 2: Bungkus data skor untuk dikirim ke Google Sheets
+                const formData = new FormData();
+                formData.append("Nama", namaUser);
+                formData.append("Kelas", kelasUser);
+                formData.append("NamaSubject", currentSubjectId); 
+                formData.append("NilaiSkor", finalPercentage + "%");          
+                formData.append("Tanggal", tanggalInput);
+
+                // LANGKAH 3: Tembak data ke spreadsheet
+                fetch(GOOGLE_SCRIPT_URL, { 
+                    method: 'POST', 
+                    body: formData 
+                })
+                .then(response => {
+                    // Sukses terkirim, langsung balik ke menu grid
+                    window.location.href = "page3.html"; 
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    // Jika ada gangguan internet, tetap dipaksa balik agar centang lokal tetap menyala
+                    window.location.href = "page3.html"; 
+                });
+            }
+        }
+ 
+        window.onload = loadQuestion;
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REVAL-SEA - Choose Your Journey</title>
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="page3.css">
+    
+    <style>
+        /* Tampilan tombol saat dalam keadaan terkunci (belum 16 mapel) */
+        .btn-next-journey.disabled {
+            opacity: 0.3;
+            pointer-events: none;
+            cursor: not-allowed;
+            filter: grayscale(100%);
+            box-shadow: none !important;
+        }
+        
+        /* Animasi Sync Data */
+        .sync-status {
+            color: #f39c12;
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            text-align: center;
+            margin-top: 5px;
+            letter-spacing: 1px;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="menu-container">        
+        <div class="player-dashboard">
+            <div class="player-profile">
+                <div class="avatar-icon">👤</div>
+                <div class="player-details">
+                    <div class="player-label">TRAVELLER NAME</div>
+                    <div class="player-name" id="tampilNama">-</div>
+                    <div class="sync-status" id="syncStatus">Syncing matrix data...</div>
+                </div>
+            </div>
+            <div class="system-time">
+                <div class="time-label">LOGGED DATE</div>
+                <div class="time-value" id="tampilTanggal">-</div>
+            </div>
+        </div>
+
+        <div class="subjects-grid">
+            <a href="art_culture.html" class="btn-subject" id="sub-art">ART & CULTURE</a>
+            <a href="biology.html" class="btn-subject" id="sub-biology">BIOLOGY</a>
+            <a href="chemistry.html" class="btn-subject" id="sub-chemistry">CHEMISTRY</a>
+            <a href="civic.html" class="btn-subject" id="sub-civic">CIVIC EDUCATION</a>
+
+            <a href="economy.html" class="btn-subject" id="sub-economy">ECONOMY</a>
+            <a href="english.html" class="btn-subject" id="sub-english">ENGLISH</a>
+            <a href="geography.html" class="btn-subject" id="sub-geography">GEOGRAPHY</a>
+            <a href="history.html" class="btn-subject" id="sub-history">HISTORY</a>
+
+            <a href="indonesian.html" class="btn-subject" id="sub-indonesian">INDONESIAN</a>
+            <a href="informatics.html" class="btn-subject" id="sub-informatics">INFORMATICS</a>
+            <a href="mandarin.html" class="btn-subject" id="sub-mandarin">MANDARIN</a>
+            <a href="mathematics.html" class="btn-subject" id="sub-math">MATHEMATICS</a>
+
+            <a href="physical_ed.html" class="btn-subject" id="sub-pe">PHYSICAL EDUCATION</a>
+            <a href="physics.html" class="btn-subject" id="sub-physics">PHYSICS</a>
+            <a href="religion.html" class="btn-subject" id="sub-religion">RELIGION</a>
+            <a href="sociology.html" class="btn-subject" id="sub-sociology">SOCIOLOGY</a>
+        </div>
+
+        <div class="next-action-container">
+            <a href="page4.html" id="btnNextJourney" class="btn-next-journey show-button disabled">NEXT JOURNEY</a>
+        </div>
+    </div>
+
+    <script>
+        // MASUKKAN URL GOOGLE APPS SCRIPT YANG SAMA DENGAN PAGE 4
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwNbUqBND-esSuLAtlEmCIvI5SRY1UCapNoBWpeMHDpACtLzkyRTgIlCVe-Y9nkj_VJmg/exec";
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const subjects = [
+                'sub-art', 'sub-biology', 'sub-chemistry', 'sub-civic',
+                'sub-economy', 'sub-english', 'sub-geography', 'sub-history',
+                'sub-indonesian', 'sub-informatics', 'sub-mandarin', 'sub-math',
+                'sub-pe', 'sub-physics', 'sub-religion', 'sub-sociology'
+            ];
+
+            const namaUser = localStorage.getItem('namaUser') ? localStorage.getItem('namaUser').toUpperCase() : "";
+            const tanggalInput = localStorage.getItem('tanggalInput');
+            if (namaUser) document.getElementById('tampilNama').innerText = namaUser;
+            if (tanggalInput) document.getElementById('tampilTanggal').innerText = tanggalInput;
+
+            const syncStatus = document.getElementById('syncStatus');
+            let completedSet = new Set(); // Menggunakan Set agar tidak ada data ganda
+
+            // 1. FUNGSI UNTUK MERENDER UI (Memunculkan Centang)
+            function renderProgress() {
+                subjects.forEach(id => {
+                    // Kalau di LocalStorage ATAU di Set dari Sheets udah kelar
+                    if (localStorage.getItem(id) === 'completed' || completedSet.has(id)) {
+                        const button = document.getElementById(id);
+                        if (button) {
+                            button.classList.add('completed');
+                            if (!button.querySelector('.checkmark')) {
+                                button.innerHTML += ' <span class="checkmark">✅</span>';
+                            }
+                        }
+                        // Paksa simpan balik ke LocalStorage biar cepat buat buka tab selanjutnya
+                        localStorage.setItem(id, 'completed');
+                        completedSet.add(id); 
+                    }
+                });
+
+                // Cek apakah semua 16 sudah selesai
+                const nextButton = document.getElementById('btnNextJourney');
+                if (nextButton && completedSet.size === subjects.length) {
+                    nextButton.classList.remove('disabled');
+                }
+            }
+
+            // Jalankan render awal secara instan pakai memori browser (Biar tidak ngelag)
+            renderProgress();
+
+            // 2. TARIK DATA DARI GOOGLE SHEETS (SINKRONISASI LEVEL PRO)
+            if (namaUser) {
+                fetch(SCRIPT_URL)
+                    .then(response => response.json())
+                    .then(matrixData => {
+                        if (matrixData && matrixData.length > 0) {
+                            
+                            // Cari data nama yang cocok
+                            for (let i = 0; i < matrixData.length; i++) {
+                                let barisNama = matrixData[i][1];
+                                
+                                if (barisNama && barisNama.toUpperCase().trim() === namaUser.trim()) {
+                                    
+                                    // Peta kolom sesuai dengan susunan di Google Sheets Anda (C sampai R)
+                                    const colMap = {
+                                        2: 'sub-art', 3: 'sub-biology', 4: 'sub-chemistry', 5: 'sub-civic',
+                                        6: 'sub-economy', 7: 'sub-english', 8: 'sub-geography', 9: 'sub-history',
+                                        10: 'sub-indonesian', 11: 'sub-informatics', 12: 'sub-mandarin', 13: 'sub-math',
+                                        14: 'sub-pe', 15: 'sub-physics', 16: 'sub-religion', 17: 'sub-sociology'
+                                    };
+
+                                    // Cek satu-satu apakah kolom tersebut ada nilainya
+                                    for (let colIndex in colMap) {
+                                        let nilai = matrixData[i][colIndex];
+                                        // Jika nilai tidak kosong
+                                        if (nilai !== undefined && nilai !== null && String(nilai).trim() !== "") {
+                                            completedSet.add(colMap[colIndex]);
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            // Ganti status jadi sukses & hijau, lalu hilangkan pelan-pelan
+                            syncStatus.innerText = "Data Synchronized 🟢";
+                            syncStatus.style.color = "#2ecc71";
+                            syncStatus.style.animation = "none";
+                            setTimeout(() => syncStatus.style.display = "none", 3000); 
+                            
+                            // Render ulang centang hijau dengan data hasil tarikan Sheets
+                            renderProgress();
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error fetching data:", error);
+                        syncStatus.innerText = "Sync Failed 🔴 (Offline Mode)";
+                        syncStatus.style.color = "#e74c3c";
+                        syncStatus.style.animation = "none";
+                    });
+            } else {
+                syncStatus.style.display = "none"; // Kalau tidak ada nama, sembunyikan tulisan sync
+            }
+        });
+    </script>
+
+</body>
+</html>

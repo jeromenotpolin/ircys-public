@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REVAL-SEA - Assessment Journey</title>
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="art_culture.css">
+</head>
+<body>
+
+    <div class="quiz-container">
+        <div class="progress-wrapper">
+            <span class="progress-text" id="progressText">JOURNEY PROGRESS: 0%</span>
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progressBarFill"></div>
+            </div>
+        </div>
+
+        <div class="quiz-box">
+            <h2 id="questionText" class="question-text">Loading question...</h2>
+            <div class="options-container" id="optionsContainer">
+                <button class="btn-option" onclick="submitAnswer(1)">CERTAIN</button>
+                <button class="btn-option" onclick="submitAnswer(0)">UNCERTAIN</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =========================================================================
+        // MASUKKAN URL WEB APP APPS SCRIPT BARU ANDA DI SINI
+        // =========================================================================
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyZSBbbqt4-WSuqYu6_9OQ7ZI4J8Vtm7m1zVezECKtqOci8myr1WInD8zrerFBILw5T2w/exec";
+
+        // Tulis nama mapel kuis ini dengan HURUF KECIL SEMUA (harus sama dengan teks di Google Sheets)
+        const currentSubjectId = 'english'; 
+
+        const questions = [
+            "Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='1'> Recount Text (Personal, Historical, Biography) </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Definition </li>" +
+              "<li> Communicative Purpose </li>" +
+              "<li> Generic Structure </li>" +
+              "<li> Language Features </li>" +
+              "<li> Types of Recount Texts </li>" +
+              "<li> Between Recount Text and Narrative Text </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='2'> Simple Past Tense vs. Past Continuous Tense </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Past Simple Tense </li>" +
+              "<li> Past Continuous Tense </li>" +
+              "<li> Past Simple or Past Continuous </li>" +
+              "<li> Verbs that are not generally used in the Progressive/continuous form </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='3'> Adverb of Time </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Adverbs that tell us ‘when’ </li>" +
+              "<li> Adverbs that tell us ‘how long’ </li>" +
+              "<li> Adverbs that tell us ‘how often’ </li>" +
+              "<li> Using ‘yet’ </li>" +
+              "<li> Using ‘still’ </li>" +
+              "<li> Order of Adverbs of Time </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='4'> Narrative Text (Personal) </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Definition </li>" +
+              "<li> Communicative Purpose </li>" +
+              "<li> Generic Structure </li>" +
+              "<li> Types of Narrative Text </li>" +
+              "<li> Personal Narrative vs. Recount Text </li>" +
+              "<li> Language Features </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='5'> Reported Speech </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Reported Statement </li>" +
+              "<li> Reported Questions </li>" +
+              "<li> Reported Requests </li>" +
+              "<li> Reported Orders </li>" +
+              "<li> Time Expressions with Reported Speech </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='6'> Procedure Text </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Definition </li>" +
+              "<li> The Generic Structure </li>" +
+              "<li> Dominant Language Features </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='7'> Modals Verbs </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> What are modal verbs? </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='8'> Imperative </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Definition of Imperative Sentence </li>" +
+              "<li> Elements of Imperative Sentences </li>" +
+              "<li> Types of Imperative Sentence </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='9'> Descriptive Text (Place-Person) </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Definition </li>" +
+              "<li> Communicative Purpose </li>" +
+              "<li> Generic Structure </li>" +
+              "<li> Language Features </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='10'> Present Tenses </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Simple Present Tense </li>" +
+              "<li> Present Continuous Tense </li>" +
+              "<li> Present Perfect Tense </li>" +
+              "<li> Present Perfect Continuous Tense </li>" +
+              "<li> Present Perfect Tense vs Present Perfect Continuous Tense </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='11'> Adjective and Adverb </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Definition of Adjectives </li>" +
+              "<li> Types of Adjectives </li>" +
+              "<li> Position of Adjectives (The Order of Adjectives) </li>" +
+              "<li> Definition of Adverb </li>" +
+              "<li> Types of Adverbs </li>" +
+              "<li> Position of Adverbs </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='12'> Report Text </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Definition </li>" +
+              "<li> Communicative Purpose </li>" +
+              "<li> Generic Structure </li>" +
+              "<li> Language Features </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='13'> Conditional Sentences </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Definition </li>" +
+              "<li> Main Structure </li>" +
+              "<li> Type 0 - Zero Conditional </li>" +
+              "<li> Type 1 - First Conditional </li>" +
+              "<li> Type 2 - Second Conditional </li>" +
+              "<li> Type 3 - Third Conditional </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='14'> Analytical Exposition Text </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Definition </li>" +
+              "<li> Communicative Purpose </li>" +
+              "<li> Generic Structure </li>" +
+              "<li> Language Features </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='15'> Expressions of Giving and Asking Opinion and Suggestion </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> What is opinion? </li>" +
+              "<li> Expressions of Asking and Giving Opinion </li>" +
+              "<li> What is a suggestion? </li>" +
+              "<li> Expressions of Asking and Giving Suggestions </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+
+"Are you certain of these chapters below" +
+        "<dl>" +
+          "<dt>" +
+             "<ol type='I'>" +
+            "<li value='16'> Causal Connectors </li>" +
+             "</ol>" +
+          "</dt>" +
+              "<dd><ol type='A'>" +
+              "<li> Definition </li>" +
+              "<li> Types of Causal Connectors </li>" +
+              "</ol>" +
+              "</dd>" +
+        "</dl>",
+        ];
+
+        // Memanggil namaUser dan tanggalInput dengan aman
+        const namaUser = localStorage.getItem('namaUser') ? localStorage.getItem('namaUser').toUpperCase() : "GUEST";
+        const tanggalInput = localStorage.getItem('tanggalInput') || new Date().toLocaleDateString();
+        const kelasUser = localStorage.getItem('kelasUser') ? localStorage.getItem('kelasUser') : "-";
+
+        let currentQuestionIndex = 0;
+        let totalCertain = 0;
+
+        function loadQuestion() {
+            document.getElementById("questionText").innerHTML = questions[currentQuestionIndex];
+            const progressPercentage = (currentQuestionIndex / questions.length) * 100;
+            document.getElementById("progressBarFill").style.width = progressPercentage + "%";
+            document.getElementById("progressText").innerText = `JOURNEY PROGRESS: ${Math.round(progressPercentage)}%`;
+        }
+
+        function submitAnswer(isCertain) {
+            totalCertain += isCertain;
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                // KUIS SELESAI
+                document.getElementById("progressBarFill").style.width = "100%";
+                document.getElementById("progressText").innerText = "SAVING LOGS...";
+                document.getElementById("questionText").innerText = "Processing your journey data...";
+                
+                document.getElementById("optionsContainer").style.pointerEvents = "none";
+                document.getElementById("optionsContainer").style.opacity = "0.3";
+
+                // LANGKAH 1: Paksa simpan memori centang di baris paling atas SEBELUM fetch internet dimulai
+                const keyName = 'sub-' + currentSubjectId;
+                localStorage.setItem(keyName, 'completed');
+
+                // MENGHITUNG PERSENTASE
+                let finalPercentage = Math.round((totalCertain / questions.length) * 100);
+
+                // LANGKAH 2: Bungkus data skor untuk dikirim ke Google Sheets
+                const formData = new FormData();
+                formData.append("Nama", namaUser);
+                formData.append("Kelas", kelasUser);
+                formData.append("NamaSubject", currentSubjectId); 
+                formData.append("NilaiSkor", finalPercentage + "%");          
+                formData.append("Tanggal", tanggalInput);
+
+                // LANGKAH 3: Tembak data ke spreadsheet
+                fetch(GOOGLE_SCRIPT_URL, { 
+                    method: 'POST', 
+                    body: formData 
+                })
+                .then(response => {
+                    // Sukses terkirim, langsung balik ke menu grid
+                    window.location.href = "page3.html"; 
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    // Jika ada gangguan internet, tetap dipaksa balik agar centang lokal tetap menyala
+                    window.location.href = "page3.html"; 
+                });
+            }
+        }
+ 
+        window.onload = loadQuestion;
+    </script>
+
+</body>
+</html>
