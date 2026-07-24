@@ -113,3 +113,44 @@ form > div {
     color: #74a9c4; 
     box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8);
 }
+
+/* ========================================================= */
+/* 📱 TAMBAHAN UNTUK TAMPILAN HP (MOBILE RESPONSIVE) 📱 */
+/* ========================================================= */
+@media screen and (max-width: 600px) {
+    /* Form wadahnya dikecilin jarak atasnya */
+    form > div {
+        margin-top: 60px; 
+        padding: 15px;
+    }
+
+    /* Teks label dikecilin biar muat */
+    .input-label {
+        font-size: 18px; 
+        margin-bottom: 10px;
+    }
+
+    /* Kotak input dilebarin pas 90% dari layar HP aja */
+    .input-field {
+        width: 90% !important; 
+        font-size: 16px;
+        padding: 10px 15px;
+    }
+
+    /* Dropdown kelas juga ngikutin lebar HP */
+    .select-field {
+        max-width: 90%; 
+        font-size: 16px;
+    }
+    
+    .select-field option {
+        font-size: 14px;
+    }
+
+    /* Tombol submit disesuaikan ukurannya */
+    #tombolKirim {
+        margin-top: 20px;
+        padding: 8px 30px;
+        font-size: 16px;
+    }
+}
