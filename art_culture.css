@@ -119,3 +119,37 @@ body {
 .btn-option:active {
     transform: scale(0.99) translateY(1px);
 }
+
+/* ========================================================= */
+/* 📱 TAMBAHAN UNTUK TAMPILAN HP (MOBILE RESPONSIVE KUIS) 📱 */
+/* ========================================================= */
+@media screen and (max-width: 768px) {
+    /* 1. Kurangi jarak padding di dalam box biar konten lebih lega di HP */
+    .quiz-container {
+        padding: 20px 15px; 
+    }
+
+    /* 2. Teks pertanyaan dikecilin biar rapi dan nggak makan tempat */
+    .question-text {
+        font-size: 18px; 
+        margin-bottom: 25px;
+        min-height: auto; /* Biar tingginya fleksibel ngikutin panjang teks */
+    }
+
+    /* 3. Ukuran tombol opsi jawaban dirapikan */
+    .btn-option {
+        font-size: 16px; 
+        padding: 12px 20px;
+    }
+
+    /* 4. Jarak antar tombol sedikit dirapatkan */
+    .options-container {
+        gap: 12px; 
+    }
+
+    /* 5. Teks progress bar disesuaikan */
+    .progress-text {
+        font-size: 13px; 
+        margin-bottom: 8px;
+    }
+}
