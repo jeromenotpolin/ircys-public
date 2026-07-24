@@ -56,3 +56,25 @@ body {
 .btn-path:active {
     transform: scale(1.01) translateY(1px);
 }
+
+/* ========================================================= */
+/* 📱 TAMBAHAN UNTUK TAMPILAN HP (MOBILE RESPONSIVE) 📱 */
+/* ========================================================= */
+@media screen and (max-width: 768px) {
+    /* 1. Atur ulang wadah tombol biar pindah ke tengah */
+    .landing-container {
+        margin-left: 0; /* Hapus dorongan ke kiri */
+        margin-top: 0;  /* Sesuaikan jarak atas */
+        align-items: center; /* Tombol otomatis ke tengah layar HP */
+        padding: 0 20px;
+    }
+
+    /* 2. Perkecil ukuran tombol agar tidak terlalu raksasa di HP */
+    .btn-path {
+        font-size: 16px; /* Huruf agak dikecilin */
+        padding: 12px 30px; /* Jarak dalam kotak dikurangi */
+        letter-spacing: 1px;
+        width: 80%; /* Panjang tombol disesuaikan dengan lebar HP */
+        max-width: 280px; /* Jangan sampai terlalu melar */
+    }
+}
