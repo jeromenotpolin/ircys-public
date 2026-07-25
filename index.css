@@ -53,7 +53,7 @@ body {
     
     /* 1. ATUR TINGGI OMBAK DI SINI (vh = % dari tinggi layar) */
     /* Ubah angka 45 ini. Makin kecil angkanya (misal 30vh), ombaknya makin pendek/ceper */
-    height: 45vh; 
+    height: 20vh; 
     
     /* 2. ATUR LEBAR OMBAK */
     /* Sengaja dibikin 110% biar pas gerak ke kiri-kanan layarnya nggak kelihatan bolong */
