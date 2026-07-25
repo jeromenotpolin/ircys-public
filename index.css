@@ -47,14 +47,27 @@ body {
 }
 
 /* --- Animasi Ombak Gerak --- */
+/* --- Animasi Ombak Gerak --- */
 .wave {
     position: absolute;
-    bottom: -5%; /* Sedikit diturunin biar bagian bawah layar gak bolong */
-    width: 110%; /* Dilebarin dari layar biar pas geser aman */
+    
+    /* 1. ATUR TINGGI OMBAK DI SINI (vh = % dari tinggi layar) */
+    /* Ubah angka 45 ini. Makin kecil angkanya (misal 30vh), ombaknya makin pendek/ceper */
+    height: 45vh; 
+    
+    /* 2. ATUR LEBAR OMBAK */
+    /* Sengaja dibikin 110% biar pas gerak ke kiri-kanan layarnya nggak kelihatan bolong */
+    width: 110%; 
+    
+    /* 3. ATUR POSISI NAIK/TURUN OMBAK */
+    /* Kalau ngerasa ombaknya masih terlalu ngangkat, ubah jadi -10% atau -15% */
+    bottom: -5%; 
     left: -5%; 
-    object-fit: cover;
+    
+    /* MANTRA PENTING: Biar gambar nggak gepeng/penyok pas ukurannya diubah */
+    object-fit: cover; 
+    object-position: bottom; /* Biar potongan gambarnya fokus di bagian bawah */
 }
-
 /* Layer Belakang (Paling lambat, agak transparan) */
 .wave-back {
     z-index: 1;
