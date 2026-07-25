@@ -43,13 +43,41 @@ body {
 }
 
 /* --- Animasi Ombak Gerak --- */
+/* --- Animasi Ombak Gerak --- */
 .wave {
     position: absolute;
     bottom: -2%; 
     left: -5%; 
-    width: 110%; 
-    height: auto !important; /* MANTRA ANTI-CROP: Gambar tampil proporsional utuh */
-    object-fit: contain; 
+    width: 110vw; /* Pastikan lebarnya full layar */
+    height: 35vh !important; /* KUNCI: Kunci tingginya cuma 35% dari layar biar ga jadi tsunami */
+    object-fit: cover; /* Biar ga gepeng */
+    object-position: top; /* Fokusin ke pucuk ombak/buihnya biar cantiknya kelihatan */
+}
+
+/* Layer Belakang (Paling Lambat) */
+.wave-back {
+    z-index: 1;
+    opacity: 0.8;
+    animation: waveMove 7s infinite alternate ease-in-out;
+}
+
+/* Layer Tengah (Gerak Berlawanan) */
+.wave-mid {
+    z-index: 2;
+    /* Tambahan khusus karena wavemid kamu formatnya JPG (ada background hitamnya) */
+    mix-blend-mode: screen; 
+    animation: waveMove 5s infinite alternate-reverse ease-in-out;
+}
+
+/* Layer Depan (Paling Cepat) */
+.wave-front {
+    z-index: 3;
+    animation: waveMove 3s infinite alternate ease-in-out;
+}
+
+@keyframes waveMove {
+    0% { transform: translateX(-2%); }
+    100% { transform: translateX(2%); }
 }
 
 /* Layer Belakang (Paling Lambat) */
