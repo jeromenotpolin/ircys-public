@@ -61,7 +61,7 @@ body {
     width: 110vw; /* Lebar dilebihkan agar tidak bocor saat bergeser */
     
     /* 🌊 JALAN TENGAH: Gak cebol, gak tsunami 🌊 */
-    height: 55vh !important; 
+    height: 60vh !important; 
     bottom: -5%; /* Sedikit diturunin biar natural */
     
     object-fit: cover; /* Biar gambar proporsional */
