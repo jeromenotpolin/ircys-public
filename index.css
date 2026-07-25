@@ -4,55 +4,121 @@ body {
     padding: 0;
     height: 100vh;
     display: flex;
-    align-items: center; /* Mengetengahkan konten secara vertikal */
-    /* GANTI 'bg_pathfinder.jpg' dengan nama file gambar latar belakang lengkap Anda */
+    align-items: center; 
+    /* Gunakan background langit/dasar yang bersih dari sini */
     background: url('slide1rev.png') no-repeat center center fixed;
     background-size: cover;
-    overflow: hidden;
+    overflow: hidden; /* Penting biar layar gak bisa di-scroll pas ombak gerak */
 }
 
+/* ========================================================= */
+/* 🌊 ANIMASI OMBAK & LAMPU MERCUSUAR 🌟 */
+/* ========================================================= */
+.animation-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Menaruh animasi di bawah tombol/konten */
+    pointer-events: none; /* Biar animasinya gak menghalangi klik tombol */
+}
+
+/* --- Animasi Lampu Nyapu --- */
+.light-beam {
+    position: absolute;
+    /* ⚠️ SILAKAN UBAH ANGKA TOP & RIGHT INI BIAR PAS DI PUCUK MERCUSUAR ⚠️ */
+    top: 35%; 
+    right: 22%;
+    width: 500px; /* Lebar cahaya */
+    
+    /* Trik sulap ngilangin background hitam di format JPG */
+    mix-blend-mode: screen; 
+    opacity: 0.85;
+    
+    /* Bikin titik tumpu putaran ada di atas tengah (di pucuk lampu) */
+    transform-origin: top center; 
+    animation: sweepLight 4s infinite alternate ease-in-out;
+}
+
+@keyframes sweepLight {
+    0% { transform: rotate(-25deg); } /* Ayun ke kiri */
+    100% { transform: rotate(15deg); } /* Ayun ke kanan */
+}
+
+/* --- Animasi Ombak Gerak --- */
+.wave {
+    position: absolute;
+    bottom: -5%; /* Sedikit diturunin biar bagian bawah layar gak bolong */
+    width: 110%; /* Dilebarin dari layar biar pas geser aman */
+    left: -5%; 
+    object-fit: cover;
+}
+
+/* Layer Belakang (Paling lambat, agak transparan) */
+.wave-back {
+    z-index: 1;
+    opacity: 0.7;
+    animation: waveMove 7s infinite alternate ease-in-out;
+}
+
+/* Layer Tengah (Gerak berlawanan arah) */
+.wave-mid {
+    z-index: 2;
+    animation: waveMove 5s infinite alternate-reverse ease-in-out;
+}
+
+/* Layer Depan (Paling cepat geraknya) */
+.wave-front {
+    z-index: 3;
+    animation: waveMove 3s infinite alternate ease-in-out;
+}
+
+@keyframes waveMove {
+    0% { transform: translateX(-2%); }
+    100% { transform: translateX(2%); }
+}
+
+
+/* ========================================================= */
 /* 2. Wadah Struktur Konten */
 .landing-container {
     width: 100%;
     max-width: 1200px;
-    margin-left: 10%; /* Dorong area konten ke arah kiri sesuai dengan tata letak foto */
+    margin-left: 10%; 
     padding: 20px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Meratakan konten di sebelah kiri */
-    
-    /* Mengatur jarak turunnya tombol dari atas layar agar pas di bawah teks logo */
+    align-items: flex-start; 
     margin-top: 80px; 
 }
 
-/* 3. Style Tombol "MAP YOUR PATH" (Sama dengan style form navigator Anda) */
+/* 3. Style Tombol "MAP YOUR PATH" */
 .btn-path {
     display: inline-block;
     padding: 14px 45px;
-    font-family: 'Cinzel Decorative', serif; /* Font bergaya dekoratif fantasi */
+    font-family: 'Cinzel Decorative', serif; 
     font-size: 22px;
     color: #ffffff;
-    text-decoration: none; /* Menghilangkan garis bawah tautan link */
-    background-color: rgba(116, 169, 196, 0.85); /* Biru laut transparan sesuai foto */
+    text-decoration: none; 
+    background-color: rgba(116, 169, 196, 0.85); 
     border: 2px solid #ffffff;
-    border-radius: 30px; /* Sudut lonjong oval sempurna */
+    border-radius: 30px; 
     text-align: center;
     letter-spacing: 2px;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3),
                 inset 0px 0px 10px rgba(255, 255, 255, 0.2);
-    transition: all 0.4s ease; /* Efek transisi animasi yang sangat halus */
+    transition: all 0.4s ease; 
 }
 
-/* Efek saat tombol diarahkan oleh mouse (Hover) */
 .btn-path:hover {
-    background-color: #74a9c4; /* Berubah menjadi biru penuh solid */
+    background-color: #74a9c4; 
     box-shadow: 0px 0px 25px rgba(255, 255, 255, 0.7),
                 inset 0px 0px 10px rgba(255, 255, 255, 0.3);
-    transform: scale(1.04) translateY(-2px); /* Tombol membesar dan terangkat sedikit */
+    transform: scale(1.04) translateY(-2px); 
 }
 
-/* Efek saat tombol ditekan klik */
 .btn-path:active {
     transform: scale(1.01) translateY(1px);
 }
@@ -61,20 +127,23 @@ body {
 /* 📱 TAMBAHAN UNTUK TAMPILAN HP (MOBILE RESPONSIVE) 📱 */
 /* ========================================================= */
 @media screen and (max-width: 768px) {
-    /* 1. Atur ulang wadah tombol biar pindah ke tengah */
     .landing-container {
-        margin-left: 0; /* Hapus dorongan ke kiri */
-        margin-top: 0;  /* Sesuaikan jarak atas */
-        align-items: center; /* Tombol otomatis ke tengah layar HP */
+        margin-left: 0; 
+        margin-top: 0;  
+        align-items: center; 
         padding: 0 20px;
     }
 
-    /* 2. Perkecil ukuran tombol agar tidak terlalu raksasa di HP */
     .btn-path {
-        font-size: 16px; /* Huruf agak dikecilin */
-        padding: 12px 30px; /* Jarak dalam kotak dikurangi */
+        font-size: 16px; 
+        padding: 12px 30px; 
         letter-spacing: 1px;
-        width: 80%; /* Panjang tombol disesuaikan dengan lebar HP */
-        max-width: 280px; /* Jangan sampai terlalu melar */
+        width: 80%; 
+        max-width: 280px; 
+    }
+    
+    /* Sedikit penyesuaian untuk lampu mercusuar di HP */
+    .light-beam {
+        width: 300px;
     }
 }
