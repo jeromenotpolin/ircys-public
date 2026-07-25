@@ -8,7 +8,7 @@ body {
     display: flex;
     align-items: center; 
     /* Pastikan 'slide1rev.png' atau 'Screenshot 2026-07-25 164547.png' adalah foto langit+mercusuar tanpa ombak */
-    background: url('slide1rev.png') no-repeat center center fixed;
+    background: url('Screenshot 2026-07-25 171135.png') no-repeat center center fixed;
     background-size: cover;
     overflow: hidden; /* Mencegah scrollbar muncul saat ombak bergerak */
 }
