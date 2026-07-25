@@ -168,3 +168,57 @@ body {
         bottom: -12%;
     }
 }
+
+/* ========================================================= */
+/* 7. STYLE TEKS JUDUL (REVAL-SEA)                           */
+/* ========================================================= */
+
+/* Panggil file font Molenilo (Pastikan ada file Molenilo.ttf di folder yang sama) */
+@font-face {
+    font-family: 'Molenilo';
+    src: url('Molenilo.ttf') format('truetype'); 
+}
+
+.title-wrapper {
+    text-align: left; /* Sejajar dengan tombol di layar laptop */
+    margin-bottom: 25px; /* Jarak antara teks dan tombol */
+}
+
+.main-title {
+    font-family: 'Molenilo', 'Cinzel Decorative', serif; /* Kalau file Molenilo gagal load, otomatis pakai Cinzel */
+    font-size: 5rem; /* Ukuran raksasa buat di laptop */
+    color: #ffffff;
+    margin: 0;
+    letter-spacing: 4px;
+    text-shadow: 2px 4px 10px rgba(0, 0, 0, 0.6); /* Bayangan biar teks terbaca jelas */
+    font-weight: normal;
+}
+
+.sub-title {
+    font-family: 'Times New Roman', Times, serif; /* Sesuai request, Times New Roman */
+    font-size: 1.5rem;
+    color: #e6ca9c; /* Warna emas/krem agar nyambung dengan tema klasik/kerajaan */
+    margin: 10px 0 0 0;
+    letter-spacing: 2px;
+    text-shadow: 1px 2px 5px rgba(0, 0, 0, 0.6);
+    font-weight: normal;
+}
+
+/* ========================================================= */
+/* 📱 UPDATE RESPONSIVE KHUSUS JUDUL (Taruh di dalam @media) 📱 */
+/* ========================================================= */
+@media screen and (max-width: 768px) {
+    .title-wrapper {
+        text-align: center; /* Di HP, teks otomatis ke tengah sejajar tombol */
+        margin-bottom: 20px;
+    }
+    
+    .main-title {
+        font-size: 2.8rem; /* Ukuran font dikecilin otomatis biar gak nabrak tepi layar HP */
+        letter-spacing: 2px;
+    }
+    
+    .sub-title {
+        font-size: 1rem; /* Ukuran subtitle disesuaikan untuk HP */
+    }
+}
