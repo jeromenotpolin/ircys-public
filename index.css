@@ -7,10 +7,9 @@ body {
     height: 100vh;
     display: flex;
     align-items: center; 
-    /* Pastikan 'slide1rev.png' atau 'Screenshot 2026-07-25 164547.png' adalah foto langit+mercusuar tanpa ombak */
-    background: url('Screenshot 2026-07-25 171135.png') no-repeat center center fixed;
+    background: url('slide1rev.png') no-repeat center center fixed;
     background-size: cover;
-    overflow: hidden; /* Mencegah scrollbar muncul saat ombak bergerak */
+    overflow: hidden; 
 }
 
 /* ========================================================= */
@@ -22,67 +21,54 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 1; /* Di atas background langit, tapi di bawah tombol */
-    pointer-events: none; /* Biar tidak menghalangi klik tombol */
+    z-index: 1; 
+    pointer-events: none; 
 }
 
 /* ========================================================= */
-/* 3. ANIMASI LAMPU MERCUSUAR (light.jpg)                    */
+/* 3. ANIMASI LAMPU MERCUSUAR (light.png)                    */
 /* ========================================================= */
 .light-beam {
     position: absolute;
-    top: 18%; /* Ketinggian puncak mercusuar */
-    right: 18%; /* Posisi mercusuar di sebelah kanan */
+    top: 18%; 
+    right: 18%; 
     width: 380px; 
     max-width: 45vw;
-    
-    /* Menghilangkan background hitam pada file light.jpg */
     mix-blend-mode: screen; 
     opacity: 0.9;
-    
-    /* Titik tumpu rotasi ada di puncak lampu */
     transform-origin: top center; 
     animation: sweepLight 4.5s infinite alternate ease-in-out;
     z-index: 2; 
 }
 
 @keyframes sweepLight {
-    0% { transform: rotate(-28deg); } /* Ayun ke kiri */
-    100% { transform: rotate(12deg); } /* Ayun ke kanan */
+    0% { transform: rotate(-28deg); } 
+    100% { transform: rotate(12deg); } 
 }
 
 /* ========================================================= */
-/* 4. ANIMASI OMBAK TIGA LAYER (waveright, wavemid, waveleft) */
+/* 4. ANIMASI OMBAK TIGA LAYER                              */
 /* ========================================================= */
-/* --- Animasi Ombak Gerak --- */
 .wave {
     position: absolute;
     left: -5%; 
-    width: 110vw; /* Lebar dilebihkan agar tidak bocor saat bergeser */
-    
-    /* 🌊 JALAN TENGAH: Gak cebol, gak tsunami 🌊 */
-    height: 60vh !important; 
-    bottom: -5%; /* Sedikit diturunin biar natural */
-    
-    object-fit: cover; /* Biar gambar proporsional */
-    object-position: top; /* Fokus nampilin buih atas, yang kepotong cuma air bawahnya (aman) */
+    width: 115vw; 
+    height: auto !important; 
+    bottom: -22%; 
 }
 
-/* Layer 1: Ombak Belakang (waveright.png) */
 .wave-back {
     z-index: 3;
     opacity: 0.85;
     animation: waveMove 7s infinite alternate ease-in-out;
 }
 
-/* Layer 2: Ombak Tengah (wavemid.jpg - hitamnya dihilangkan pakai screen) */
 .wave-mid {
     z-index: 4;
-    mix-blend-mode: screen; /* Wajib karena wavemid berformat JPG latar hitam */
+    mix-blend-mode: screen; 
     animation: waveMove 5s infinite alternate-reverse ease-in-out;
 }
 
-/* Layer 3: Ombak Depan (waveleft.png) */
 .wave-front {
     z-index: 5;
     animation: waveMove 3.5s infinite alternate ease-in-out;
@@ -94,11 +80,11 @@ body {
 }
 
 /* ========================================================= */
-/* 5. STRUKTUR KONTEN & TOMBOL UTAMA                        */
+/* 5. STRUKTUR KONTEN, JUDUL, & TOMBOL UTAMA                */
 /* ========================================================= */
 .landing-container {
     position: relative;
-    z-index: 10; /* Berada paling depan di atas seluruh animasi */
+    z-index: 10; /* Biar tulisan dan tombol ada di atas ombak */
     width: 100%;
     max-width: 1200px;
     margin-left: 8%; 
@@ -110,6 +96,39 @@ body {
     margin-top: 60px; 
 }
 
+/* --- FONT & TEKS JUDUL --- */
+@font-face {
+    font-family: 'Molenilo';
+    /* ⚠️ PASTIKAN NAMA FILE INI PERSIS SAMA (Huruf besar/kecilnya) DENGAN FILE ASLI ⚠️ */
+    src: url('Molenilo.ttf') format('truetype'); 
+}
+
+.title-wrapper {
+    text-align: left; 
+    margin-bottom: 25px; 
+}
+
+.main-title {
+    font-family: 'Molenilo', 'Cinzel Decorative', serif; 
+    font-size: 5rem; 
+    color: #ffffff;
+    margin: 0;
+    letter-spacing: 4px;
+    text-shadow: 2px 4px 10px rgba(0, 0, 0, 0.6); 
+    font-weight: normal;
+}
+
+.sub-title {
+    font-family: 'Times New Roman', Times, serif; 
+    font-size: 1.5rem;
+    color: #e6ca9c; 
+    margin: 10px 0 0 0;
+    letter-spacing: 2px;
+    text-shadow: 1px 2px 5px rgba(0, 0, 0, 0.6);
+    font-weight: normal;
+}
+
+/* --- TOMBOL --- */
 .btn-path {
     display: inline-block;
     padding: 14px 45px;
@@ -149,10 +168,23 @@ body {
         padding: 0 20px;
     }
 
+    /* Penyesuaian teks di HP */
+    .title-wrapper {
+        text-align: center; 
+        margin-bottom: 20px;
+    }
+    
+    .main-title {
+        font-size: 3rem; 
+    }
+    
+    .sub-title {
+        font-size: 1rem; 
+    }
+
     .btn-path {
         font-size: 16px; 
         padding: 12px 30px; 
-        letter-spacing: 1px;
         width: 80%; 
         max-width: 280px; 
     }
@@ -164,61 +196,7 @@ body {
     }
 
     .wave {
-        width: 180vw; /* Di HP dilebarkan agar tingginya tetap menutup bawah layar */
+        width: 180vw; 
         bottom: -12%;
-    }
-}
-
-/* ========================================================= */
-/* 7. STYLE TEKS JUDUL (REVAL-SEA)                           */
-/* ========================================================= */
-
-/* Panggil file font Molenilo (Pastikan ada file Molenilo.ttf di folder yang sama) */
-@font-face {
-    font-family: 'Molenilo';
-    src: url('Molenilo.ttf') format('truetype'); 
-}
-
-.title-wrapper {
-    text-align: left; /* Sejajar dengan tombol di layar laptop */
-    margin-bottom: 25px; /* Jarak antara teks dan tombol */
-}
-
-.main-title {
-    font-family: 'Molenilo', 'Cinzel Decorative', serif; /* Kalau file Molenilo gagal load, otomatis pakai Cinzel */
-    font-size: 5rem; /* Ukuran raksasa buat di laptop */
-    color: #ffffff;
-    margin: 0;
-    letter-spacing: 4px;
-    text-shadow: 2px 4px 10px rgba(0, 0, 0, 0.6); /* Bayangan biar teks terbaca jelas */
-    font-weight: normal;
-}
-
-.sub-title {
-    font-family: 'Times New Roman', Times, serif; /* Sesuai request, Times New Roman */
-    font-size: 1.5rem;
-    color: #e6ca9c; /* Warna emas/krem agar nyambung dengan tema klasik/kerajaan */
-    margin: 10px 0 0 0;
-    letter-spacing: 2px;
-    text-shadow: 1px 2px 5px rgba(0, 0, 0, 0.6);
-    font-weight: normal;
-}
-
-/* ========================================================= */
-/* 📱 UPDATE RESPONSIVE KHUSUS JUDUL (Taruh di dalam @media) 📱 */
-/* ========================================================= */
-@media screen and (max-width: 768px) {
-    .title-wrapper {
-        text-align: center; /* Di HP, teks otomatis ke tengah sejajar tombol */
-        margin-bottom: 20px;
-    }
-    
-    .main-title {
-        font-size: 2.8rem; /* Ukuran font dikecilin otomatis biar gak nabrak tepi layar HP */
-        letter-spacing: 2px;
-    }
-    
-    .sub-title {
-        font-size: 1rem; /* Ukuran subtitle disesuaikan untuk HP */
     }
 }
