@@ -6,7 +6,7 @@ body {
     display: flex;
     align-items: center; 
     /* Gunakan background langit/dasar yang bersih dari sini */
-    background: url('slide1rev.png') no-repeat center center fixed;
+    background: url('Screenshot 2026-07-25 165919.png') no-repeat center center fixed;
     background-size: cover;
     overflow: hidden; /* Penting biar layar gak bisa di-scroll pas ombak gerak */
 }
