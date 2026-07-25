@@ -54,14 +54,18 @@ body {
 /* ========================================================= */
 /* 4. ANIMASI OMBAK TIGA LAYER (waveright, wavemid, waveleft) */
 /* ========================================================= */
+/* --- Animasi Ombak Gerak --- */
 .wave {
     position: absolute;
     left: -5%; 
-    width: 115vw; /* Lebar dilebihkan agar tidak bocor saat bergeser */
-    height: auto !important; /* Proporsi asli gambar tanpa gepeng/terpotong */
+    width: 110vw; /* Lebar dilebihkan agar tidak bocor saat bergeser */
     
-    /* NILAI PAS: -22% membuat tinggi ombak pas berada di kaki mercusuar & batu */
-    bottom: -22%; 
+    /* 🌊 JALAN TENGAH: Gak cebol, gak tsunami 🌊 */
+    height: 55vh !important; 
+    bottom: -5%; /* Sedikit diturunin biar natural */
+    
+    object-fit: cover; /* Biar gambar proporsional */
+    object-position: top; /* Fokus nampilin buih atas, yang kepotong cuma air bawahnya (aman) */
 }
 
 /* Layer 1: Ombak Belakang (waveright.png) */
