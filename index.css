@@ -1,17 +1,20 @@
-/* 1. Mengatur dasar halaman dan Gambar Background Utama */
+/* ========================================================= */
+/* 1. DASAR HALAMAN & BACKGROUND ASTRO/LANGIT               */
+/* ========================================================= */
 body {
     margin: 0;
     padding: 0;
     height: 100vh;
     display: flex;
     align-items: center; 
-    background: url('Screenshot 2026-07-25 171135.png') no-repeat center center fixed;
+    /* Pastikan 'slide1rev.png' atau 'Screenshot 2026-07-25 164547.png' adalah foto langit+mercusuar tanpa ombak */
+    background: url('slide1rev.png') no-repeat center center fixed;
     background-size: cover;
-    overflow: hidden; 
+    overflow: hidden; /* Mencegah scrollbar muncul saat ombak bergerak */
 }
 
 /* ========================================================= */
-/* 🌊 ANIMASI OMBAK & LAMPU MERCUSUAR 🌟 */
+/* 2. WADAH UTAMA ANIMASI BACKGROUND                        */
 /* ========================================================= */
 .animation-wrapper {
     position: absolute;
@@ -19,107 +22,90 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* Animasi aman di belakang tombol */
-    pointer-events: none; 
+    z-index: 1; /* Di atas background langit, tapi di bawah tombol */
+    pointer-events: none; /* Biar tidak menghalangi klik tombol */
 }
 
-/* --- Animasi Lampu Nyapu --- */
+/* ========================================================= */
+/* 3. ANIMASI LAMPU MERCUSUAR (light.jpg)                    */
+/* ========================================================= */
 .light-beam {
     position: absolute;
-    top: 15%; /* Posisi agak ke atas */
-    right: 15%; /* Posisi di kanan menyesuaikan mercusuar */
-    width: 35vw; 
-    max-width: 400px; 
-    mix-blend-mode: screen; /* Sakti: Ngilangin background hitam di light.jpg */
+    top: 18%; /* Ketinggian puncak mercusuar */
+    right: 18%; /* Posisi mercusuar di sebelah kanan */
+    width: 380px; 
+    max-width: 45vw;
+    
+    /* Menghilangkan background hitam pada file light.jpg */
+    mix-blend-mode: screen; 
     opacity: 0.9;
+    
+    /* Titik tumpu rotasi ada di puncak lampu */
     transform-origin: top center; 
-    animation: sweepLight 4s infinite alternate ease-in-out;
-    z-index: 0; 
+    animation: sweepLight 4.5s infinite alternate ease-in-out;
+    z-index: 2; 
 }
 
 @keyframes sweepLight {
-    0% { transform: rotate(-25deg); } 
-    100% { transform: rotate(15deg); } 
+    0% { transform: rotate(-28deg); } /* Ayun ke kiri */
+    100% { transform: rotate(12deg); } /* Ayun ke kanan */
 }
-
-/* --- Animasi Ombak Gerak --- */
-/* --- Animasi Ombak Gerak --- */
-.wave {
-    position: absolute;
-    bottom: -2%; 
-    left: -5%; 
-    width: 110vw; /* Pastikan lebarnya full layar */
-    height: 35vh !important; /* KUNCI: Kunci tingginya cuma 35% dari layar biar ga jadi tsunami */
-    object-fit: cover; /* Biar ga gepeng */
-    object-position: top; /* Fokusin ke pucuk ombak/buihnya biar cantiknya kelihatan */
-}
-
-/* Layer Belakang (Paling Lambat) */
-.wave-back {
-    z-index: 1;
-    opacity: 0.8;
-    animation: waveMove 7s infinite alternate ease-in-out;
-}
-
-/* Layer Tengah (Gerak Berlawanan) */
-.wave-mid {
-    z-index: 2;
-    /* Tambahan khusus karena wavemid kamu formatnya JPG (ada background hitamnya) */
-    mix-blend-mode: screen; 
-    animation: waveMove 5s infinite alternate-reverse ease-in-out;
-}
-
-/* Layer Depan (Paling Cepat) */
-.wave-front {
-    z-index: 3;
-    animation: waveMove 3s infinite alternate ease-in-out;
-}
-
-@keyframes waveMove {
-    0% { transform: translateX(-2%); }
-    100% { transform: translateX(2%); }
-}
-
-/* Layer Belakang (Paling Lambat) */
-.wave-back {
-    z-index: 1;
-    opacity: 0.8;
-    animation: waveMove 7s infinite alternate ease-in-out;
-}
-
-/* Layer Tengah (Gerak Berlawanan) */
-.wave-mid {
-    z-index: 2;
-    animation: waveMove 5s infinite alternate-reverse ease-in-out;
-}
-
-/* Layer Depan (Paling Cepat) */
-.wave-front {
-    z-index: 3;
-    animation: waveMove 3s infinite alternate ease-in-out;
-}
-
-@keyframes waveMove {
-    0% { transform: translateX(-2%); }
-    100% { transform: translateX(2%); }
-}
-
 
 /* ========================================================= */
-/* 2. Wadah Struktur Konten */
+/* 4. ANIMASI OMBAK TIGA LAYER (waveright, wavemid, waveleft) */
+/* ========================================================= */
+.wave {
+    position: absolute;
+    left: -5%; 
+    width: 115vw; /* Lebar dilebihkan agar tidak bocor saat bergeser */
+    height: auto !important; /* Proporsi asli gambar tanpa gepeng/terpotong */
+    
+    /* NILAI PAS: -22% membuat tinggi ombak pas berada di kaki mercusuar & batu */
+    bottom: -22%; 
+}
+
+/* Layer 1: Ombak Belakang (waveright.png) */
+.wave-back {
+    z-index: 3;
+    opacity: 0.85;
+    animation: waveMove 7s infinite alternate ease-in-out;
+}
+
+/* Layer 2: Ombak Tengah (wavemid.jpg - hitamnya dihilangkan pakai screen) */
+.wave-mid {
+    z-index: 4;
+    mix-blend-mode: screen; /* Wajib karena wavemid berformat JPG latar hitam */
+    animation: waveMove 5s infinite alternate-reverse ease-in-out;
+}
+
+/* Layer 3: Ombak Depan (waveleft.png) */
+.wave-front {
+    z-index: 5;
+    animation: waveMove 3.5s infinite alternate ease-in-out;
+}
+
+@keyframes waveMove {
+    0% { transform: translateX(-3%); }
+    100% { transform: translateX(3%); }
+}
+
+/* ========================================================= */
+/* 5. STRUKTUR KONTEN & TOMBOL UTAMA                        */
+/* ========================================================= */
 .landing-container {
+    position: relative;
+    z-index: 10; /* Berada paling depan di atas seluruh animasi */
     width: 100%;
     max-width: 1200px;
-    margin-left: 10%; 
+    margin-left: 8%; 
     padding: 20px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: flex-start; 
-    margin-top: 80px; 
+    margin-top: 60px; 
 }
 
-/* 3. Style Tombol "MAP YOUR PATH" */
 .btn-path {
     display: inline-block;
     padding: 14px 45px;
@@ -132,14 +118,14 @@ body {
     border-radius: 30px; 
     text-align: center;
     letter-spacing: 2px;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3),
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.4),
                 inset 0px 0px 10px rgba(255, 255, 255, 0.2);
     transition: all 0.4s ease; 
 }
 
 .btn-path:hover {
     background-color: #74a9c4; 
-    box-shadow: 0px 0px 25px rgba(255, 255, 255, 0.7),
+    box-shadow: 0px 0px 25px rgba(255, 255, 255, 0.8),
                 inset 0px 0px 10px rgba(255, 255, 255, 0.3);
     transform: scale(1.04) translateY(-2px); 
 }
@@ -149,7 +135,7 @@ body {
 }
 
 /* ========================================================= */
-/* 📱 TAMBAHAN UNTUK TAMPILAN HP (MOBILE RESPONSIVE) 📱 */
+/* 6. RESPONSIVE UNTUK TAMPILAN HP / TABLET                  */
 /* ========================================================= */
 @media screen and (max-width: 768px) {
     .landing-container {
@@ -168,6 +154,13 @@ body {
     }
     
     .light-beam {
-        width: 50vw; /* Cahaya dibesarin dikit di HP biar kerasa efeknya */
+        width: 60vw;
+        top: 20%;
+        right: 10%;
+    }
+
+    .wave {
+        width: 180vw; /* Di HP dilebarkan agar tingginya tetap menutup bawah layar */
+        bottom: -12%;
     }
 }
